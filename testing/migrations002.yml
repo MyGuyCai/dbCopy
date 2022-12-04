@@ -1,0 +1,80 @@
+databaseChangeLog:
+    -  changeSet:
+        id:  1
+        author:  cai
+        changes:
+            - createTable:
+                tableName:  parent
+                columns:
+                    - column:
+                        name:  id
+                        type:  int
+                        autoIncrement:  true
+                        constraints:
+                            primaryKey:  true
+                            nullable:  false
+                    - column:
+                        name:  firstname
+                        type:  varchar(50)
+                    - column:
+                        name:  lastname
+                        type:  varchar(50)
+                        constraints:
+                            nullable:  false
+            - createTable:
+                tableName:  child
+                columns:
+                    - column:
+                        name:  id
+                        type:  int
+                        autoIncrement:  true
+                        constraints:
+                            primaryKey:  true
+                            nullable:  false
+                    - column:
+                        name:  firstname
+                        type:  varchar(50)
+                    - column:
+                        name:  lastname
+                        type:  varchar(50)
+                    - column:
+                        name: parent
+                        type: int
+                        constraints:
+                            foreignKeyName: fk_child_parent
+                            references: parent(id)
+    - changeSet:
+        id: 2
+        author: cai
+        changes:
+            - sql:
+                dbms: 'mysql'
+                endDelimiter: ;
+                sql: CREATE SCHEMA db2
+    - changeSet:
+          id: 3
+          author: cai
+          changes:
+                - createTable:
+                      tableName: anotherDB.grandparent
+                      columns:
+                          - column:
+                              name: id
+                              type: int
+                              autoIncrement: true
+                              constraints:
+                                  primaryKey: true
+                                  nullable: false
+                          - column:
+                              name: firstname
+                              type: varchar(50)
+                          - column:
+                              name: lastname
+                              type: varchar(50)
+                          - column:
+                              name: grand_child
+                              type: int
+                              constraints:
+                                  nullable: false
+                                  foreignKeyName: fk_grandparent_child
+                                  references: db.child(id)

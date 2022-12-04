@@ -1,0 +1,27 @@
+version: '3'
+services:
+  db:
+    container_name: sourceDB
+    image: mysql/mysql-server:5.7
+    environment:
+        MYSQL_USER: user
+        MYSQL_PASSWORD: pass
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_ROOT_HOST: '%'
+        MYSQL_DATABASE: db
+    ports:
+      - "3306:3306"
+    restart: always
+
+  db2:
+    container_name: destinationDB
+    image: mysql/mysql-server:5.7
+    environment:
+        MYSQL_USER: user
+        MYSQL_PASSWORD: pass
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_ROOT_HOST: '%'
+        MYSQL_DATABASE: db
+    ports:
+      - "3307:3306"
+    restart: always

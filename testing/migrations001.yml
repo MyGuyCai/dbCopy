@@ -1,0 +1,106 @@
+databaseChangeLog:
+    - changeSet:
+        id:  1
+        author:  cai
+        changes:
+        - createTable:
+            columns:
+                - column:
+                    name:  id
+                    type:  int
+                    autoIncrement:  true
+                    constraints:
+                        primaryKey:  true
+                        nullable:  false
+                - column:
+                    name:  firstname
+                    type:  varchar(50)
+                - column:
+                    name:  lastname
+                    type:  varchar(50)
+                    constraints:
+                        nullable:  false
+            tableName:  parent
+            schemaName: db
+        - createTable:
+            columns:
+                - column:
+                    name:  id
+                    type:  int
+                    autoIncrement:  true
+                    constraints:
+                        primaryKey:  true
+                        nullable:  false
+                - column:
+                    name:  firstname
+                    type:  varchar(50)
+                - column:
+                    name:  lastname
+                    type:  varchar(50)
+                - column:
+                    name: parent
+                    type: int
+                    constraints:
+                        foreignKeyName: fk_child_parent
+                        references: parent(id)
+                        nullable: false
+            tableName:  child
+            schemaName: db
+    - changeSet:
+        id: 2
+        author: cai
+        changes:
+            - sql:
+                sql: CREATE DATABASE db2;
+        rollback:
+            - sql:
+                sql: DROP DATABASE db2;
+    - changeSet:
+        id: 3
+        author: cai
+        changes:
+            - createTable:
+                columns:
+                - column:
+                    name: id
+                    type: int
+                    autoIncrement: true
+                    constraints:
+                        primaryKey: true
+                        nullable: false
+                - column:
+                    name: country_name
+                    type: varchar(50)
+                tableName:  country
+                schemaName: db2
+            - createTable:
+                columns:
+                - column:
+                    name: id
+                    type: int
+                    autoIncrement: true
+                    constraints:
+                        primaryKey: true
+                        nullable: false
+                - column:
+                    name: firstname
+                    type: varchar(50)
+                - column:
+                    name: lastname
+                    type: varchar(50)
+                - column:
+                    name: grand_child
+                    type: int
+                    constraints:
+                        nullable: false
+                        foreignKeyName: fk_grandparent_child
+                        references: db.child(id)
+                - column:
+                    name: birth_country
+                    type: int
+                    constraints:
+                        nullable: false
+                        foreignKeyName: fk_grandparent_country
+                        references: db2.country(id)
+                tableName:  grandparent
+                schemaName: db2
